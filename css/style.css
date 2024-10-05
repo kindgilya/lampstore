@@ -102,6 +102,14 @@ select option {
   justify-content: center;
   align-items: center;
   border-top: 1px solid #bf8061;
+  overflow: hidden;
+  opacity: 0;
+}
+
+
+.mini-search__form-wrapper--active{
+  overflow: visible;
+  opacity: 1;
 }
 
 .mini-search-form__field {
@@ -186,7 +194,8 @@ border-radius: 5px;
   margin-right: 5px;
 }
 
-.fiters__top {
+.fiters__input {
+  /* width: 100%; */
   display: flex;
   justify-content: space-between;
 }
@@ -203,15 +212,20 @@ border-radius: 5px;
   color: #757c84;
 }
 
-.filter form {
-  display: flex;
+.filter__title{
+  margin-bottom: 10px;
 }
 
-.from {
-  position: absolute;
-  top: 20px;
-  left: 0;
+.filter__content{
+  display: flex;
+  margin-right: 10px;
 }
+
+.filter-field-group{
+  display: flex;
+  flex-direction: column;
+}
+
 
 .before {
   position: absolute;

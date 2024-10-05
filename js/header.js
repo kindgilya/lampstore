@@ -6,8 +6,42 @@ function createElement(html) {
 
 
 class Header {
-    constructor(parameters) {
-        
+  _element = null;
+  _subElements = null;
+
+    constructor({MiniSearch, Basket}) {
+        this._MiniSearch = MiniSearch;
+        this._Basket = Basket;
+        this._init();
+    }
+
+    _init(){
+      this._element = createElement(this._getTemplate());
+      this._subElements = this._getSubElements();
+      this._render();
+    }
+
+    _generateMiniSearch() {
+      return new this._MiniSearch().element;
+    }
+
+    _generateBasket() {
+      return new this._Basket().element;
+    }
+
+    _getSubElements() {
+      return Array.from(this._element.querySelectorAll("[data-element]")).reduce((acc, elem) => {
+        return {
+          ...acc,
+          [elem.getAttribute("data-element")]: elem,
+        };
+      }, {});
+    }
+
+    _render() {
+      this._subElements.wrapper.innerHTML = "";
+      this._subElements.wrapper.append(this._generateMiniSearch());
+      this._subElements.wrapper.append(this._generateBasket());
     }
 
     _getTemplate(){
@@ -16,7 +50,6 @@ class Header {
           <a href="#" class="logo">
             <img src="images/logo.png" alt="" class="logo__img" />
           </a>
-
           <ul class="menu">
             <li class="menu__item">
               <a href="#" class="menu__link">Главная</a>
@@ -28,78 +61,94 @@ class Header {
               <a href="#" class="menu__link">Контакты</a>
             </li>
           </ul>
+          <div class="header__wrapper" data-element="wrapper"></div>
+          </nav>
+      </header>`
+    }
 
-          <!-- mini-search__form-wrapper -> dn mini-search__form-wrapper--active -> db-->
+    get element() {
+      return this._element;
+    }
 
-          <!-- <div class="mini-search">
-                <button class="btn btn--search header__control-btn"><i class="fa-solid fa-search"></i></button>
-                <div class="mini-search__form-wrapper mini-search__form-wrapper--active">
-                  <form class="mini-search-form" action="#" method="post">
-                    <input class="mini-search-form__field" type="text" placeholder="Название продукта..." />
-                  </form>
-                </div>
-              </div>
+}
 
-              <div class="basket">
-                <div class="basket__control">
-                   кнопка иконка тотал  
-                </div>
-                basket__list dn +  h 300px oy-auto
-                <div class="basket__list ">
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                  <div class="mini-product"></div>
-                </div>
-              </div> -->
-              <div class="header__wrapper">
-              <div class="mini-search">
-            <button class="btn btn--search"><i class="fa-solid fa-search"></i></button>
-            <!-- <div class="mini-search__form-wrapper mini-search__form-wrapper--active">
-              <form class="mini-search-form" action="#" method="post">
-                <input class="mini-search-form__field" type="text" placeholder="Название продукта..." />
-              </form>
-            </div> -->
-          </div>
-          <div class="basket">
+
+class MiniSearch {
+
+  _element = null;
+
+  constructor() {
+    this._init();
+  }
+
+  _init(){
+    this._element = createElement(this._getTemplate());
+  }
+
+  _getTemplate(){
+    return `<div class="mini-search">
+        <button class="btn btn--search"><i class="fa-solid fa-search"></i></button>
+        <div class="mini-search__form-wrapper">
+          <form class="mini-search-form" action="#" method="post">
+            <input class="mini-search-form__field" type="text" placeholder="Название продукта..." />
+          </form>
+        </div>
+      </div>`
+    }
+
+    get element() {
+      return this._element;
+    }
+
+}
+
+class Basket {
+
+  _element = null;
+
+  constructor() {
+    this._init();
+  }
+
+  _init(){
+    this._element = createElement(this._getTemplate());
+  }
+
+  _getTemplate(){
+    return `<div class="basket">
             <button class="btn btn--basket"><i class="fa-solid fa-cart-shopping"></i></i></button>
             <div class="basket__description">
                 <span href="#" class="basket__cost">0 руб</span>
                 <span href="#" class="basket__buy">0 товаров</span>
               </div>
-             <div class="basket__list ">
-                  <div class="mini-product"></div>
-                  <button class="btn btn--order"></button>
-              </div>
-          </div>
-              </div>
-          
+             <!-- <div class="basket__list">
+                  <span class="basket__list_title">Товары в корзине</span>
+                  <button class="btn btn--order">Оформить заказ</button>
+              </div> -->
+          </div>`
+      }
 
-          <!-- <div class="btns-wrapper">
-            <button class="btn btn--search">
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            <div class="basket">
-              <button class="btn basket-btn">
-                <i class="fa-solid fa-cart-shopping"></i>
-              </button>
-              <div class="basket__links">
-                <a href="#" class="basket__cost">0 руб</a>
-                <a href="#" class="basket__buy">0 товаров</a>
-              </div>
-            </div>
-          </div> -->
-        </nav>
-      </header>`
-    }
-
-
+      get element() {
+        return this._element;
+      }
 }
+
+
+class BasketProducts {
+  constructor(parameters) {
+    
+  }
+  _getTemplate(){
+    return `<div class="mini-product mini-product__basket">
+                    <img class="mini-product__img" src="/images/lamp_1_white.jpg" alt="">
+                    <div class="mini-product__info">
+                      <spam class="mini-product__text">Рабочая лампа на струбцине KD-312</spam>
+                      <spam class="mini-product__price">1148</spam>
+                    </div>
+                    <button class="btn btn--close">X</button>
+                  </div>`
+}
+}
+
+
+
