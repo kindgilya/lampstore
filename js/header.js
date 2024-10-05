@@ -9,6 +9,13 @@ class Header {
   _element = null;
   _subElements = null;
 
+  _state = {
+    activePanel: {
+      search:false,
+      busket:false,
+    }
+  }
+
     constructor({MiniSearch, Basket}) {
         this._MiniSearch = MiniSearch;
         this._Basket = Basket;
@@ -21,12 +28,31 @@ class Header {
       this._render();
     }
 
-    _generateMiniSearch() {
-      return new this._MiniSearch().element;
+    _setActivePanel(panel){
+      if (panel === "search") {
+        this._state.activePanel.search = !this._state.activePanel.search;
+        this._state.activePanel.busket = false;
+      }
+      if (panel === "busket") {
+        this._state.activePanel.busket = !this._state.activePanel.busket;
+        this._state.activePanel.search = false;
+      }
+      else{
+        return;
+      }
     }
 
+    _generateMiniSearch() {
+      return new this._MiniSearch({active:this._state.activePanel.search}, this._setStateActiveHandler.bind(this)).element;
+    }
+    
     _generateBasket() {
-      return new this._Basket().element;
+      return new this._Basket({active:this._state.activePanel.busket}, this._setStateActiveHandler.bind(this)).element;
+    }
+
+    _setStateActiveHandler(panel){
+      this._setActivePanel(panel);
+      this._render();
     }
 
     _getSubElements() {
@@ -65,6 +91,15 @@ class Header {
           </nav>
       </header>`
     }
+    
+    close(){
+      if (this._state.activePanel.search) {
+        this._setStateActiveHandler("search");
+      }
+      if (this._state.activePanel.busket) {
+        this._setStateActiveHandler("busket");
+      }
+    }
 
     get element() {
       return this._element;
@@ -76,20 +111,57 @@ class Header {
 class MiniSearch {
 
   _element = null;
+  _subElements = null;
 
-  constructor() {
+  constructor({active},setStateActiveHandler) {
+    this._active = active;
+    this._setStateActiveHandler = setStateActiveHandler;
     this._init();
   }
 
   _init(){
     this._element = createElement(this._getTemplate());
+    this._subElements = this._getSubElements();
+    this._addListeners();
+  }
+
+  _addListeners() {
+    this._subElements.search.addEventListener("click", () => {
+      this._setStateActiveHandler("search");
+    });
+    this._subElements.form.addEventListener("input", (event) => {
+      if (event.data != null) {
+        this._dispathEventSearch(event.data);
+      }
+      else{
+        this._dispathEventSearch("delete");
+      }
+    });
+  }
+
+  _dispathEventSearch(data) {
+    this._element.dispatchEvent(
+      new CustomEvent("search", {
+        bubbles: true,
+        detail: data.toLowerCase(),
+      })
+    );
+  }
+
+  _getSubElements() {
+    return Array.from(this._element.querySelectorAll("[data-element]")).reduce((acc, elem) => {
+      return {
+        ...acc,
+        [elem.getAttribute("data-element")]: elem,
+      };
+    }, {});
   }
 
   _getTemplate(){
     return `<div class="mini-search">
-        <button class="btn btn--search"><i class="fa-solid fa-search"></i></button>
-        <div class="mini-search__form-wrapper">
-          <form class="mini-search-form" action="#" method="post">
+        <button class="btn btn--search" data-element="search"><i class="fa-solid fa-search"></i></button>
+        <div class="mini-search__form-wrapper ${this._active ? "mini-search__form-wrapper--active" : ""}">
+          <form class="mini-search-form" action="#" method="post" data-element="form">
             <input class="mini-search-form__field" type="text" placeholder="Название продукта..." />
           </form>
         </div>
@@ -105,26 +177,49 @@ class MiniSearch {
 class Basket {
 
   _element = null;
+  _subElements = null;
 
-  constructor() {
+  constructor({active},setStateActiveHandler) {
+    this._active = active;
+    this._setStateActiveHandler = setStateActiveHandler;
     this._init();
   }
 
   _init(){
     this._element = createElement(this._getTemplate());
+    this._subElements = this._getSubElements();
+    this._addListeners();
+  }
+
+  _addListeners() {
+    this._subElements.basket.addEventListener("click", () => {
+      this._setStateActiveHandler("busket");
+    });
+    this._subElements.description.addEventListener("click", () => {
+      this._setStateActiveHandler("busket");
+    });
+  }
+
+  _getSubElements() {
+    return Array.from(this._element.querySelectorAll("[data-element]")).reduce((acc, elem) => {
+      return {
+        ...acc,
+        [elem.getAttribute("data-element")]: elem,
+      };
+    }, {});
   }
 
   _getTemplate(){
     return `<div class="basket">
-            <button class="btn btn--basket"><i class="fa-solid fa-cart-shopping"></i></i></button>
-            <div class="basket__description">
+            <button class="btn btn--basket" data-element="basket"><i class="fa-solid fa-cart-shopping"></i></i></button>
+            <div class="basket__description" data-element="description">
                 <span href="#" class="basket__cost">0 руб</span>
                 <span href="#" class="basket__buy">0 товаров</span>
               </div>
-             <!-- <div class="basket__list">
+             <div class="basket__list ${this._active ? "basket__list--active" : ""}">
                   <span class="basket__list_title">Товары в корзине</span>
                   <button class="btn btn--order">Оформить заказ</button>
-              </div> -->
+              </div>
           </div>`
       }
 

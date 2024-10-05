@@ -136,8 +136,17 @@ select option {
   background-color: var(--card-color);
   border-top: 1px solid #bf8061;
   padding: 15px 15px;
-  z-index: 1000;
+  z-index: -1;
+  overflow: hidden;
+  opacity: 0;
 }
+
+.basket__list--active{
+  z-index: 1000;
+  overflow: visible;
+  opacity: 1;
+}
+
 .basket__list_title{
   font-size: 20px;
   font-weight: 400;
@@ -257,6 +266,7 @@ border-radius: 5px;
 }
 .card {
   width: 230px;
+  min-height: 600px;
   background-color: var(--card-color);
   border-radius: 15px;
   overflow: hidden;
@@ -267,9 +277,18 @@ border-radius: 5px;
   margin-left: 10px;
 }
 
+.card__img{
+  width: 230px;
+  height: 304px;
+  cursor: pointer;
+  object-fit:cover;
+}
+
 .card__desc {
+  min-height: 110px;
   padding: 15px;
 }
+
 .card__title {
   margin-bottom: 20px;
   color: var(--card-info-text);
