@@ -110,6 +110,7 @@ select option {
 .mini-search__form-wrapper--active{
   overflow: visible;
   opacity: 1;
+  z-index: 999;
 }
 
 .mini-search-form__field {
@@ -257,7 +258,7 @@ border-radius: 5px;
 /* filters-styles end */
 
 /* card-styles begin */
-.cards {
+.card-list__wrapper {
   margin-top: 20px;
   margin-bottom: 30px;
   display: flex;

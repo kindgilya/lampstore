@@ -1,5 +1,5 @@
 
-class Main {
+class CardList {
     _element = null;
     _subElements = null;
 
@@ -26,22 +26,20 @@ class Main {
       }
 
       _setStateSearch(data){
-        if (data === "delete") {
-            this._state.search = "";
-        }
-        else{
-            this._state.search += data;
-        }
+        this._state.search = data;
       }
 
       _generateFilteredCards(data){
-       const filteredProducts = this._products.filter((obj) => {
+       return this._products
+       .filter((obj) => {
             return obj.title.toLowerCase().includes(this._state.search.toLowerCase());
-        });
-        return filteredProducts.map((obj) => {
+        }).map((obj) => {
+          // подкрашивать titles (obj передать this._state.search)
             return new this._Card(obj).element;
         });
       }
+
+      // лампа <i class="card__title-marker">супер</i> лампа
   
        _generateCards() {
         return this._products.map((obj) => {
@@ -69,13 +67,12 @@ class Main {
       }
   
       _getTemplate(){
-          return ` <main class="main">
-        <form class="filters" method="post" action="#" data-element="filters"></form>
-        <div class="cards" data-element="cards"></div>
-        </main>`
+          return `<section class="card-list">
+          <div class="card-list__wrapper" data-element="cards"></div>
+          </section>`
       }
 
-      search(data){
+      update(data){
         this._setStateActiveHandler(data);
       }
   

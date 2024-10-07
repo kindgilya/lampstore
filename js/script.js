@@ -1,31 +1,41 @@
 const root = document.querySelector(".root");
 
-document.addEventListener("keydown", (el) => {
-    if(el.keyCode === 27){
-        header.close();
-    }
-});
+function createElement(html) {
+  const div = document.createElement("div");
+  div.insertAdjacentHTML("beforeend", html);
+  return div.firstElementChild;
+}
+
+// поместить этот кусок в search || basket
+// document.addEventListener("keydown", (el) => {
+//     if(el.keyCode === 27){
+//         // header.close();
+//     }
+// });
+
+// input -> icon -> i ??? -> closest(.search)
 
 root.addEventListener("search", (event) => {
-    main.search(event.detail);
+    cardList.update(event.detail);
   });
 
-// document.addEventListener("click", (el) => {
-//     if (!header.element.contains(el.target)) {
-//         header.close();
-//     } 
-// })
+root.addEventListener("buy", (event) => {
+    header.update(event.detail);
+  });
+
+
 
 const header = new Header({
     MiniSearch, 
     Basket,
+    MiniProduct,
   });
 
-const main = new Main({
+const cardList = new CardList({
     filterCategories,
     products,
     Card
 })
 
   root.insertAdjacentElement("afterbegin", header.element);
-  root.insertAdjacentElement("afterend", main.element);
+  root.insertAdjacentElement("beforeend", cardList.element);

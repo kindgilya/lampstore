@@ -13,10 +13,32 @@ class Card {
         this._colors = colors;
         this._init();
       }
+
   
       _init(){
         this._element = createElement(this._getTemplate());
         this._subElements = this._getSubElements();
+        this._addListeners();
+      }
+
+      _addListeners() {
+        this._subElements.buy.addEventListener("click", () => {
+          this._dispathEventSearch( {
+          id: this._id,
+          title: this._title,
+          price: this._price,
+          color: this._colors[0]
+        });
+        });
+      }
+
+      _dispathEventSearch(data) {
+        this._element.dispatchEvent(
+          new CustomEvent("buy", {
+            bubbles: true,
+            detail: data,
+          })
+        );
       }
 
       
@@ -48,9 +70,9 @@ class Card {
             </div>
             <div class="card__options">
               <button class="btn watt--btn card__options-btn" data-element="watt">Watt</button>
-              <button class="btn color--btn card__options-btn" data-element="Color">Color</button>
+              <button class="btn color--btn card__options-btn" data-element="сolor">Color</button>
             </div>
-            <button class="btn buy--btn">buy</button>
+            <button class="btn buy--btn" data-element="buy">buy</button>
           </div>`
       }
   
