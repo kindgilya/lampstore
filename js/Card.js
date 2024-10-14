@@ -23,12 +23,7 @@ class Card {
 
       _addListeners() {
         this._subElements.buy.addEventListener("click", () => {
-          this._dispathEventSearch( {
-          id: this._id,
-          title: this._title,
-          price: this._price,
-          color: this._colors[0]
-        });
+          this._dispathEventSearch(this._id);
         });
       }
 

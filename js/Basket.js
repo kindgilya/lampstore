@@ -7,7 +7,6 @@ class Basket {
 
     _state = {
         active: false,
-        products: [],
        }
   
     constructor({product,MiniProduct}) {
@@ -20,16 +19,11 @@ class Basket {
       this._element = createElement(this._getTemplate());
       this._subElements = this._getSubElements();
       this._addListeners();
-      this._setStateProducts(this._product);
+      this._render();
     }
 
     _setStateActive(){
         this._state.active = !this._state.active;
-    }
-
-    _setStateProducts(data){
-        this._state.products.push(data);
-        console.log(this._state.products);
     }
   
     _addListeners() {
@@ -44,7 +38,9 @@ class Basket {
     }
 
     _generateMiniProduct(product) {
-        return new this._MiniSearch(product.id, product.title, product.price, product.color).element;
+      return product.map((obj) => {
+        return new this._MiniProduct({id:obj.id, colors:obj.colors, title:obj.title, price:obj.price}).element;
+    });
       }
 
     _render(){
@@ -54,7 +50,9 @@ class Basket {
         } else {
             this._subElements.basketList.classList.remove("basket__list--active");   
         }
-        this._subElements.basketList.append(this._generateMiniProduct());
+
+        this._subElements.basketItems.innerHTML = "";
+        this._subElements.basketItems.append(...this._generateMiniProduct(this._product));
     }
   
     _getSubElements() {
@@ -75,6 +73,7 @@ class Basket {
                 </div>
                <div class="basket__list ${this._active ? "basket__list--active" : ""}" data-element="basketList">
                     <span class="basket__list_title">Товары в корзине</span>
+                    <div class="basket__items" data-element="basketItems"></div>
                     <button class="btn btn--order">Оформить заказ</button>
                 </div>
             </div>`

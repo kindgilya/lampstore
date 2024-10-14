@@ -28,6 +28,7 @@ root.addEventListener("buy", (event) => {
 const header = new Header({
     MiniSearch, 
     Basket,
+    products,
     MiniProduct,
   });
 
@@ -39,3 +40,4 @@ const cardList = new CardList({
 
   root.insertAdjacentElement("afterbegin", header.element);
   root.insertAdjacentElement("beforeend", cardList.element);
+

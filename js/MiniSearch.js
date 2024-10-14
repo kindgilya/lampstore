@@ -69,14 +69,7 @@ class MiniSearch {
           </div>
         </div>`
       }
-
-
-      close(){
-        if (this._state.active) {
-         this._setStateActive();
-        }
-      }
-  
+      
       get element() {
         return this._element;
       }

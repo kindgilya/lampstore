@@ -3,9 +3,14 @@ class Header {
   _element = null;
   _subElements = null;
 
-    constructor({MiniSearch, Basket,MiniProduct}) {
+  _state = {
+    product: [],
+  }
+
+    constructor({MiniSearch, products,Basket,MiniProduct}) {
         this._MiniSearch = MiniSearch;
         this._Basket = Basket;
+        this._products = products;
         this._MiniProduct = MiniProduct;
         this._init();
     }
@@ -24,6 +29,9 @@ class Header {
       return new this._Basket({product,MiniProduct}).element;
     }
 
+    _setStateProduct(product){
+     this._state.product.push(product);
+    }
 
     _getSubElements() {
       return Array.from(this._element.querySelectorAll("[data-element]")).reduce((acc, elem) => {
@@ -37,7 +45,7 @@ class Header {
     _render(product) {
       this._subElements.wrapper.innerHTML = "";
       this._subElements.wrapper.append(this._generateMiniSearch());
-      this._subElements.wrapper.append(this._generateBasket(product ? product : {}));
+      this._subElements.wrapper.append(this._generateBasket(this._state.product));
     }
 
     _getTemplate(){
@@ -66,8 +74,9 @@ class Header {
       return this._element;
     }
 
-    update(product){
-      this._render(product);
+    update(id){
+      this._setStateProduct(this._products.find((product) => product.id === id));
+      this._render();
     }
 
 }
