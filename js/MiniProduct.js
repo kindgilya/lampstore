@@ -7,7 +7,6 @@ class MiniProduct {
       this._colors = colors;
       this._title = title;
       this._price = price;
-      console.log(this._price);
       this._init();
     }
 

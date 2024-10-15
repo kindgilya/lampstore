@@ -30,7 +30,13 @@ class Header {
     }
 
     _setStateProduct(product){
-     this._state.product.push(product);
+      const existingProduct = this._state.product.find(el => el.id === product.id);
+
+      if (existingProduct) {
+          existingProduct.price += product.price;
+      } else {
+          this._state.product.push({ ...product});
+      }
     }
 
     _getSubElements() {
