@@ -7,10 +7,13 @@
   --card-color: #0f0c2b;
   --option-choise: #c0bae8;
 }
+
 body {
   background-color: var(--bgc);
   color: var(--font-color);
   font-size: 14px;
+  scrollbar-color: var(--option-choise) var(--card-color); 
+  scrollbar-width: thin;
 }
 
 input {
@@ -295,23 +298,50 @@ border-radius: 5px;
   color: var(--card-info-text);
 }
 
+
 .card__options-btn {
-  padding: 15px 19px;
+  width: 70px;
+  height: 50px;
   background-color: var(--option-choise);
   border-radius: 5px;
 }
+
 .card__options .watt--btn {
   margin-bottom: 10px;
 }
+
 .card__options {
   padding: 15px;
   display: flex;
   flex-direction: column;
 }
+
 .card .buy--btn {
   margin: 10px auto;
 }
 
+.card__options-items{
+  margin-left: 10px;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100px;
+  cursor: pointer;
+}
+
+.card__options-item{
+  width: 50px;
+  height: 40px;
+  margin: 0 5px;
+  font-size: 12px;
+  padding: 5px 10px;
+  background-color: #6408f7;
+}
+
+.card__options-content{
+  display: flex;
+  justify-content: center;
+}
 .buy--btn {
   padding: 10px 15px;
   background-color: var(--font-hover);
@@ -330,6 +360,10 @@ border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.favorite--active{
+  color: #fc5f05;
 }
 
 .card__favorite {
