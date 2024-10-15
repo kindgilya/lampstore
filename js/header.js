@@ -35,8 +35,12 @@ class Header {
       if (existingProduct) {
           existingProduct.price += product.price;
       } else {
-          this._state.product.push({ ...product});
+          this._state.product.push({ ...product, count: 1});
       }
+    }
+
+    _removeProduct(id) {
+      this._state.product = this._state.product.filter(product => product.id !== id);
     }
 
     _getSubElements() {
@@ -82,6 +86,11 @@ class Header {
 
     update(id){
       this._setStateProduct(this._products.find((product) => product.id === id));
+      this._render();
+    }
+
+    close(id){
+      this._removeProduct(id);
       this._render();
     }
 

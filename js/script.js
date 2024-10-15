@@ -23,6 +23,10 @@ root.addEventListener("buy", (event) => {
     header.update(event.detail);
   });
 
+root.addEventListener("deleteProduct", (event) => {
+    header.close(event.detail);
+  });
+
 
 
 const header = new Header({

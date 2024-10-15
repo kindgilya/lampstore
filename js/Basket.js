@@ -43,6 +43,12 @@ class Basket {
     });
       }
 
+    _calculatePrice(price){
+      return this._product.reduce((acc,el) => {
+        return acc + el.price;
+      },0);
+    }
+
     _render(){
         if (this._state.active) {
             this._subElements.basketList.classList.add("basket__list--active");
@@ -68,8 +74,8 @@ class Basket {
       return `<div class="basket">
               <button class="btn btn--basket" data-element="basket"><i class="fa-solid fa-cart-shopping"></i></i></button>
               <div class="basket__description" data-element="description">
-                  <span href="#" class="basket__cost">0 руб</span>
-                  <span href="#" class="basket__buy">0 товаров</span>
+                  <span href="#" class="basket__cost">${this._product ? this._calculatePrice(this._product) : "0"} руб</span>
+                  <span href="#" class="basket__buy">${this._product ? this._product.length : "0"} товаров</span>
                 </div>
                <div class="basket__list ${this._active ? "basket__list--active" : ""}" data-element="basketList">
                     <span class="basket__list_title">Товары в корзине</span>
@@ -84,4 +90,4 @@ class Basket {
         }
   }
   
-  
+

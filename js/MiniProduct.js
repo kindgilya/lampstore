@@ -12,6 +12,23 @@ class MiniProduct {
 
   _init(){
     this._element = createElement(this._getTemplate());
+    this._subElements = this._getSubElements();
+    this._addListeners();
+  }
+
+  _addListeners() {
+    this._subElements.close.addEventListener("click", () => {
+      this._dispathEventProduct(this._id);
+    });
+  }
+
+  _dispathEventProduct(id) {
+    this._element.dispatchEvent(
+      new CustomEvent("deleteProduct", {
+        bubbles: true,
+        detail: id,
+      })
+    );
   }
 
   _getSubElements() {
