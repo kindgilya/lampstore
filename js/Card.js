@@ -1,6 +1,11 @@
 class Card {
     _element = null;
     _subElements = null;
+
+    _state = {
+      watt:false,
+      color:false,
+    }
   
       constructor({id, title, price, priceType, description, properties, watts, colors},Option) {
         this._id = id;
@@ -15,16 +20,33 @@ class Card {
         this._init();
       }
 
-  
       _init(){
         this._element = createElement(this._getTemplate());
         this._subElements = this._getSubElements();
         this._addListeners();
       }
 
+      _setStateWatt(){
+        this._state.watt = !this._state.watt;
+      }
+
+      _setStateColor(){
+        this._state.color = !this._state.color;
+      }
+
       _addListeners() {
         this._subElements.buy.addEventListener("click", () => {
           this._dispathEventBuy();
+        });
+
+        this._subElements.wattBtn.addEventListener("click", () => {
+          this._setStateWatt();
+          this._render();
+        });
+
+        this._subElements.colorBtn.addEventListener("click", () => {
+          this._setStateColor();
+          this._render();
         });
       }
 
@@ -40,6 +62,37 @@ class Card {
             },
           })
         );
+      }
+
+      _render(){
+        if (this._state.watt) {
+          this._subElements.watt.classList.add("card__options-items--active");
+          
+        } else {
+          this._subElements.watt.classList.remove("card__options-items--active");   
+        }
+
+        if (this._state.color) {
+          this._subElements.color.classList.add("card__options-items--active");
+          
+        } else {
+          this._subElements.color.classList.remove("card__options-items--active");   
+        }
+        this._subElements.watt.innerHTML = "";
+        this._subElements.watt.append(...this._generateOptionsWatt());
+        this._subElements.color.innerHTML = "";
+        this._subElements.color.append(...this._generateOptionsColor());
+      }
+
+      _generateOptionsWatt() {
+        return this._watts.map((obj) => {
+          return new this._Option(obj).element;
+      });
+      }
+      _generateOptionsColor(){
+        return this._colors.map((obj) => {
+          return new this._Option(obj).element;
+      });
       }
 
       _getSubElements() {
@@ -69,16 +122,14 @@ class Card {
               <span class="card__price">${this._price} ${this._priceType}</span>
             </div>
             <div class="card__options">
-            <div class="card__options">
                 <div class="card__options-content">
                   <button class="btn watt--btn card__options-btn" data-element="wattBtn">Watt</button>
-                  <div class="card__options-items" data-element="watt"></div>
+                  <div class="card__options-items ${this._state.watt ? "card__options-items--active" : ""}" data-element="watt"></div>
                 </div>
                 <div class="card__options-content">
                   <button class="btn color--btn card__options-btn" data-element="colorBtn">Color</button>
-                  <div class="card__options-items" data-element="color"></div>
+                  <div class="card__options-items ${this._state.color ? "card__options-items--active" : ""}" data-element="color"></div>
               </div>
-            </div>
             <button class="btn buy--btn" data-element="buy">buy</button>
           </div>`
       }

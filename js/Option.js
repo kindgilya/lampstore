@@ -2,8 +2,9 @@ class Option{
     _element = null;
     _subElements = null;
   
-    constructor({text}) {
+    constructor({text,unit}) {
         this._text = text;
+        this._unit = unit;
         this._init();
       }
   
@@ -26,7 +27,7 @@ class Option{
     }
   
     _getTemplate(){
-        return `<div class="card__options-item">${this._text}</div>`
+        return `<div class="card__options-item">${this._text} ${this._unit}</div>`
     }
   
     get element() {

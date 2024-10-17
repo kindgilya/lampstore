@@ -7,7 +7,7 @@ class CardList {
         search:"",
     }
   
-      constructor({filterCategories, products,  Card,Option}) {
+      constructor({filterCategories, products, Card, Option}) {
           this._filterCategories = filterCategories;
           this._products = products;
           this._Card = Card;
