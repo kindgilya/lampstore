@@ -288,6 +288,11 @@ border-radius: 5px;
   object-fit:cover;
 }
 
+.card__img {
+  border-bottom: 3px solid #684838;
+  box-shadow: 0 0 40px var(--form-border-color);
+}
+
 .card__desc {
   min-height: 110px;
   padding: 15px;
@@ -344,6 +349,7 @@ border-radius: 5px;
   padding: 5px 10px;
   background-color: var(--bgc);
   border-radius: 5px;
+  border: 1px solid #fff;
 }
 
 .card__options-content{
