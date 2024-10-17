@@ -7,10 +7,11 @@ class CardList {
         search:"",
     }
   
-      constructor({filterCategories, products,  Card}) {
+      constructor({filterCategories, products,  Card,Option}) {
           this._filterCategories = filterCategories;
           this._products = products;
           this._Card = Card;
+          this._Option = Option;
           this._init();
       }
   
@@ -35,7 +36,7 @@ class CardList {
             return obj.title.toLowerCase().includes(this._state.search.toLowerCase());
         }).map((obj) => {
           // подкрашивать titles (obj передать this._state.search)
-            return new this._Card(obj).element;
+            return new this._Card(obj,this._Option).element;
         });
       }
 
@@ -43,7 +44,7 @@ class CardList {
   
        _generateCards() {
         return this._products.map((obj) => {
-            return new this._Card(obj).element;
+            return new this._Card(obj,this._Option).element;
         });
         }
     

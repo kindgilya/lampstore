@@ -2,7 +2,7 @@ class Card {
     _element = null;
     _subElements = null;
   
-      constructor({id, title, price, priceType, description, properties, watts, colors}) {
+      constructor({id, title, price, priceType, description, properties, watts, colors},Option) {
         this._id = id;
         this._title = title;
         this._price = price;
@@ -11,6 +11,7 @@ class Card {
         this._properties = properties;
         this._watts = watts;
         this._colors = colors;
+        this._Option = Option;
         this._init();
       }
 
@@ -41,7 +42,6 @@ class Card {
         );
       }
 
-      
       _getSubElements() {
         return Array.from(this._element.querySelectorAll("[data-element]")).reduce((acc, elem) => {
           return {
@@ -69,8 +69,15 @@ class Card {
               <span class="card__price">${this._price} ${this._priceType}</span>
             </div>
             <div class="card__options">
-              <button class="btn watt--btn card__options-btn" data-element="watt">Watt</button>
-              <button class="btn color--btn card__options-btn" data-element="сolor">Color</button>
+            <div class="card__options">
+                <div class="card__options-content">
+                  <button class="btn watt--btn card__options-btn" data-element="wattBtn">Watt</button>
+                  <div class="card__options-items" data-element="watt"></div>
+                </div>
+                <div class="card__options-content">
+                  <button class="btn color--btn card__options-btn" data-element="colorBtn">Color</button>
+                  <div class="card__options-items" data-element="color"></div>
+              </div>
             </div>
             <button class="btn buy--btn" data-element="buy">buy</button>
           </div>`

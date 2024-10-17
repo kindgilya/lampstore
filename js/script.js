@@ -38,7 +38,8 @@ const header = new Header({
 const cardList = new CardList({
     filterCategories,
     products,
-    Card
+    Card,
+    Option
 })
 
   root.insertAdjacentElement("afterbegin", header.element);

@@ -286,13 +286,9 @@ border-radius: 5px;
   height: 304px;
   cursor: pointer;
   object-fit:cover;
-}
-
-.card__img {
   border-bottom: 3px solid #684838;
   box-shadow: 0 0 40px var(--form-border-color);
 }
-
 .card__desc {
   min-height: 110px;
   padding: 15px;
