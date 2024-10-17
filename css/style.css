@@ -327,15 +327,23 @@ border-radius: 5px;
   overflow-y: hidden;
   width: 100px;
   cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.card__options-items--active{
+  visibility: visible;
+  opacity: 1;
 }
 
 .card__options-item{
   width: 50px;
   height: 40px;
-  margin: 0 5px;
+  margin: 0 3px;
   font-size: 12px;
   padding: 5px 10px;
-  background-color: #6408f7;
+  background-color: var(--bgc);
+  border-radius: 5px;
 }
 
 .card__options-content{
