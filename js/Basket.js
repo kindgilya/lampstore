@@ -1,4 +1,12 @@
+// _setStateProduct(product){
+//   const existingProduct = this._state.product.find(el => el.id === product.id);
 
+//   if (existingProduct) {
+//       existingProduct.price += product.price;
+//   } else {
+//       this._state.product.push({ ...product, count: 1});
+//   }
+// }
 
 class Basket {
 
@@ -7,10 +15,10 @@ class Basket {
 
     _state = {
         active: false,
+        products: [],
        }
   
-    constructor({product,MiniProduct}) {
-      this._product = product;
+    constructor(MiniProduct) {
       this._MiniProduct = MiniProduct;
       this._init();
     }
@@ -25,6 +33,10 @@ class Basket {
     _setStateActive(){
         this._state.active = !this._state.active;
     }
+
+    _setStateProducts(newState) {
+      this._state.products = newState
+    }
   
     _addListeners() {
       this._subElements.basket.addEventListener("click", () => {
@@ -37,14 +49,14 @@ class Basket {
       });
     }
 
-    _generateMiniProduct(product) {
-      return product.map((obj) => {
-        return new this._MiniProduct({id:obj.id, colors:obj.colors, title:obj.title, price:obj.price}).element;
+    _generateMiniProduct() {
+      return this._state.products.map((obj) => {
+        return new this._MiniProduct(obj).element;
     });
       }
 
-    _calculatePrice(price){
-      return this._product.reduce((acc,el) => {
+    _calculatePrice(){
+      return this._state.products.reduce((acc,el) => {
         return acc + el.price;
       },0);
     }
@@ -58,7 +70,10 @@ class Basket {
         }
 
         this._subElements.basketItems.innerHTML = "";
-        this._subElements.basketItems.append(...this._generateMiniProduct(this._product));
+        this._subElements.basketItems.append(...this._generateMiniProduct(this._state.products));
+
+        this._subElements.basketCost.textContent = `${this._calculatePrice()} руб`;
+        this._subElements.basketBuy.textContent = `${this._state.products.length} товаров`;
     }
   
     _getSubElements() {
@@ -74,8 +89,8 @@ class Basket {
       return `<div class="basket">
               <button class="btn btn--basket" data-element="basket"><i class="fa-solid fa-cart-shopping"></i></i></button>
               <div class="basket__description" data-element="description">
-                  <span href="#" class="basket__cost">${this._product ? this._calculatePrice(this._product) : "0"} руб</span>
-                  <span href="#" class="basket__buy">${this._product ? this._product.length : "0"} товаров</span>
+                  <span href="#" class="basket__cost" data-element="basketCost">0 руб</span>
+                  <span href="#" class="basket__buy" data-element="basketBuy">0 товаров</span>
                 </div>
                <div class="basket__list ${this._active ? "basket__list--active" : ""}" data-element="basketList">
                     <span class="basket__list_title">Товары в корзине</span>
@@ -88,6 +103,17 @@ class Basket {
         get element() {
           return this._element;
         }
+
+        add(obj){
+          this._setStateProducts([...this._state.products, obj]);
+          this._render();
+        }
+    
+        remove(id){
+          this._setStateProducts(this._state.products.filter(el => el.id !== id));
+          this._render();
+        }
+    
   }
   
 

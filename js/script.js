@@ -32,7 +32,6 @@ root.addEventListener("deleteProduct", (event) => {
 const header = new Header({
     MiniSearch, 
     Basket,
-    products,
     MiniProduct,
   });
 

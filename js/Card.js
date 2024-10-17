@@ -23,15 +23,20 @@ class Card {
 
       _addListeners() {
         this._subElements.buy.addEventListener("click", () => {
-          this._dispathEventSearch(this._id);
+          this._dispathEventBuy();
         });
       }
 
-      _dispathEventSearch(data) {
+      _dispathEventBuy() {
         this._element.dispatchEvent(
           new CustomEvent("buy", {
             bubbles: true,
-            detail: data,
+            detail: {
+              id:this._id,
+              title:this._title,
+              price:this._price,
+              colors:this._colors,
+            },
           })
         );
       }

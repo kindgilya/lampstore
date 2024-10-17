@@ -1,16 +1,11 @@
-
 class Header {
   _element = null;
   _subElements = null;
+  _firstRender = false;
 
-  _state = {
-    product: [],
-  }
-
-    constructor({MiniSearch, products,Basket,MiniProduct}) {
+  constructor({MiniSearch,Basket,MiniProduct}) {
         this._MiniSearch = MiniSearch;
-        this._Basket = Basket;
-        this._products = products;
+        this._Basket = new Basket(MiniProduct);
         this._MiniProduct = MiniProduct;
         this._init();
     }
@@ -25,22 +20,8 @@ class Header {
       return new this._MiniSearch().element;
     }
     
-    _generateBasket(product) {
-      return new this._Basket({product,MiniProduct}).element;
-    }
-
-    _setStateProduct(product){
-      const existingProduct = this._state.product.find(el => el.id === product.id);
-
-      if (existingProduct) {
-          existingProduct.price += product.price;
-      } else {
-          this._state.product.push({ ...product, count: 1});
-      }
-    }
-
-    _removeProduct(id) {
-      this._state.product = this._state.product.filter(product => product.id !== id);
+    _generateBasket() {
+      return this._Basket.element;
     }
 
     _getSubElements() {
@@ -52,10 +33,15 @@ class Header {
       }, {});
     }
 
-    _render(product) {
+    _render() {
+      if (!this._firstRender) {
+      this._firstRender = true;
+      }
       this._subElements.wrapper.innerHTML = "";
       this._subElements.wrapper.append(this._generateMiniSearch());
-      this._subElements.wrapper.append(this._generateBasket(this._state.product));
+      if (this._firstRender) {
+        this._subElements.wrapper.append(this._generateBasket());
+      }
     }
 
     _getTemplate(){
@@ -80,20 +66,17 @@ class Header {
       </header>`
     }
 
-    get element() {
-      return this._element;
-    }
-
-    update(id){
-      this._setStateProduct(this._products.find((product) => product.id === id));
-      this._render();
+    update(obj){
+      this._Basket.add(obj);
     }
 
     close(id){
-      this._removeProduct(id);
-      this._render();
+      this._Basket.remove(id);
     }
 
+    get element() {
+      return this._element;
+    }
 }
 
 
