@@ -27,12 +27,6 @@ root.addEventListener("deleteProduct", (event) => {
     header.close(event.detail);
   });
 
-root.addEventListener("optionInfo", (event) => {
-    cardList.getOption(event.detail);
-  });
-
-
-
 const header = new Header({
     MiniSearch, 
     Basket,
@@ -43,7 +37,8 @@ const cardList = new CardList({
     filterCategories,
     products,
     Card,
-    Option
+    WattOpion,
+    ColorOption
 })
 
   root.insertAdjacentElement("afterbegin", header.element);

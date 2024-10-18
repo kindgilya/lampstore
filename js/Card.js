@@ -3,17 +3,13 @@ class Card {
     _subElements = null;
 
     _state = {
-      watt:{
-        active:false,
-        power: 14,
-      },
-      color:{
-        active:false,
-        img: 0,
-      },
+        wattActive:false,
+        colorActive:false,
+        currentWatt:14,
+        currentColor:"",
     }
-  
-      constructor({id, title, price, priceType, description, properties, watts, colors,option},Option) {
+    
+      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion) {
         this._id = id;
         this._title = title;
         this._price = price;
@@ -21,9 +17,9 @@ class Card {
         this._description = description;
         this._properties = properties;
         this._watts = watts;
-        this._option = option;
+        this._ColorOption = ColorOption;
+        this._WattOpion = WattOpion;
         this._colors = colors;
-        this._Option = Option;
         this._init();
       }
 
@@ -34,15 +30,31 @@ class Card {
       }
 
       _setStateWattActive(){
-        this._state.watt.active = !this._state.watt.active;
+        this._state.wattActive = !this._state.wattActive;
       }
 
-      _setStateWattPower(){
-        this._state.watt.active = !this._state.watt.active;
+      _setStateCurrentWatt(id){
+        const currentWatt = this._watts.find((el) => el.id === id);
+        this._state.currentWatt = currentWatt.text;
+      }
+
+      _setStateCurrentWattHandler(id){
+        this._setStateCurrentWatt(id);
+        this._render();
       }
 
       _setStateColorActive(){
-        this._state.color.active = !this._state.color.active;
+        this._state.colorActive = !this._state.colorActive;
+      }
+
+      _setStateCurrentColor(id){
+        const currentImage = this._colors.find((el) => el.id === id);
+        this._state.currentColor = currentImage.img;
+      }
+
+      _setStateCurrentColorHandler(id){
+        this._setStateCurrentColor(id);
+        this._render();
       }
 
       _addListeners() {
@@ -76,14 +88,14 @@ class Card {
       }
 
       _render(){
-        if (this._state.watt.active) {
+        if (this._state.wattActive) {
           this._subElements.watt.classList.add("card__options-items--active");
           
         } else {
           this._subElements.watt.classList.remove("card__options-items--active");   
         }
 
-        if (this._state.color.active) {
+        if (this._state.colorActive) {
           this._subElements.color.classList.add("card__options-items--active");
           
         } else {
@@ -93,16 +105,26 @@ class Card {
         this._subElements.watt.append(...this._generateOptionsWatt());
         this._subElements.color.innerHTML = "";
         this._subElements.color.append(...this._generateOptionsColor());
+
+
+        if (this._state.currentColor != "") {
+          this._subElements.img.src = `images/${this._state.currentColor}`;
+        }
+
+
+        this._subElements.img.style.boxShadow = `0 0 ${this._state.currentWatt}px #bf8061`;
+
       }
 
       _generateOptionsWatt() {
         return this._watts.map((obj) => {
-          return new this._Option(obj).element;
+          return new this._WattOpion(obj,this._setStateCurrentWattHandler.bind(this)).element;
       });
       }
+
       _generateOptionsColor(){
         return this._colors.map((obj) => {
-          return new this._Option(obj).element;
+          return new this._ColorOption(obj,this._setStateCurrentColorHandler.bind(this)).element;
       });
       }
 
@@ -127,7 +149,7 @@ class Card {
                 <i class="fa-regular fa-star"></i>
               </a>
             </div>
-            <img class="card__img" src="images/${this._colors[this._state.color.img].img}" alt="" style="box-shadow: 0 0 ${this._state.watt.power}px #bf8061;" />
+            <img class="card__img" src="images/${this._colors[0].img}" alt="" style="box-shadow: 0 0 14px #bf8061;" data-element="img"/>
             <div class="card__desc">
               <h3 class="card__title">${this._title}</h3>
               <span class="card__price">${this._price} ${this._priceType}</span>
@@ -150,3 +172,4 @@ class Card {
       }
   
   }
+

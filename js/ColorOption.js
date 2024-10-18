@@ -1,11 +1,11 @@
-class Option{
+class ColorOption{
     _element = null;
     _subElements = null;
   
-    constructor({id,text,unit}) {
+    constructor({id,text},handler) {
         this._id = id;
         this._text = text;
-        this._unit = unit;
+        this._handler = handler;
         this._init();
       }
   
@@ -17,18 +17,15 @@ class Option{
 
     _addListeners() {
       this._element.addEventListener("click", (el) => {
-        this._dispathEventProduct();
+        this._handler(this._id);
       })
     }
 
     _dispathEventProduct() {
       this._element.dispatchEvent(
-        new CustomEvent("optionInfo", {
+        new CustomEvent("color", {
           bubbles: true,
-          detail: {
-            id: this._id,
-            text:this._text,
-          },
+          detail: this._id,
         })
       );
     }
@@ -43,7 +40,7 @@ class Option{
     }
   
     _getTemplate(){
-        return `<div class="card__options-item">${this._text} ${this._unit}</div>`
+        return `<div class="card__options-item">${this._text}</div>`
     }
   
     get element() {
