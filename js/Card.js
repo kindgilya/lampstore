@@ -3,11 +3,17 @@ class Card {
     _subElements = null;
 
     _state = {
-      watt:false,
-      color:false,
+      watt:{
+        active:false,
+        power: 14,
+      },
+      color:{
+        active:false,
+        img: 0,
+      },
     }
   
-      constructor({id, title, price, priceType, description, properties, watts, colors},Option) {
+      constructor({id, title, price, priceType, description, properties, watts, colors,option},Option) {
         this._id = id;
         this._title = title;
         this._price = price;
@@ -15,6 +21,7 @@ class Card {
         this._description = description;
         this._properties = properties;
         this._watts = watts;
+        this._option = option;
         this._colors = colors;
         this._Option = Option;
         this._init();
@@ -26,12 +33,16 @@ class Card {
         this._addListeners();
       }
 
-      _setStateWatt(){
-        this._state.watt = !this._state.watt;
+      _setStateWattActive(){
+        this._state.watt.active = !this._state.watt.active;
       }
 
-      _setStateColor(){
-        this._state.color = !this._state.color;
+      _setStateWattPower(){
+        this._state.watt.active = !this._state.watt.active;
+      }
+
+      _setStateColorActive(){
+        this._state.color.active = !this._state.color.active;
       }
 
       _addListeners() {
@@ -40,12 +51,12 @@ class Card {
         });
 
         this._subElements.wattBtn.addEventListener("click", () => {
-          this._setStateWatt();
+          this._setStateWattActive();
           this._render();
         });
 
         this._subElements.colorBtn.addEventListener("click", () => {
-          this._setStateColor();
+          this._setStateColorActive();
           this._render();
         });
       }
@@ -65,14 +76,14 @@ class Card {
       }
 
       _render(){
-        if (this._state.watt) {
+        if (this._state.watt.active) {
           this._subElements.watt.classList.add("card__options-items--active");
           
         } else {
           this._subElements.watt.classList.remove("card__options-items--active");   
         }
 
-        if (this._state.color) {
+        if (this._state.color.active) {
           this._subElements.color.classList.add("card__options-items--active");
           
         } else {
@@ -116,7 +127,7 @@ class Card {
                 <i class="fa-regular fa-star"></i>
               </a>
             </div>
-            <img class="card__img" src="images/${this._colors[0].img}" alt="" />
+            <img class="card__img" src="images/${this._colors[this._state.color.img].img}" alt="" style="box-shadow: 0 0 ${this._state.watt.power}px #bf8061;" />
             <div class="card__desc">
               <h3 class="card__title">${this._title}</h3>
               <span class="card__price">${this._price} ${this._priceType}</span>

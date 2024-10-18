@@ -27,6 +27,10 @@ root.addEventListener("deleteProduct", (event) => {
     header.close(event.detail);
   });
 
+root.addEventListener("optionInfo", (event) => {
+    cardList.getOption(event.detail);
+  });
+
 
 
 const header = new Header({

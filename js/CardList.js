@@ -5,6 +5,7 @@ class CardList {
 
     _state = {
         search:"",
+        option:"",
     }
   
       constructor({filterCategories, products, Card, Option}) {
@@ -30,13 +31,17 @@ class CardList {
         this._state.search = data;
       }
 
+      _setStateOption(data){
+        this._state.option = data;
+      }
+
       _generateFilteredCards(data){
        return this._products
        .filter((obj) => {
             return obj.title.toLowerCase().includes(this._state.search.toLowerCase());
         }).map((obj) => {
           // подкрашивать titles (obj передать this._state.search)
-            return new this._Card(obj,this._Option).element;
+            return new this._Card({...obj, option: this._state.option},this._Option).element;
         });
       }
 
@@ -44,7 +49,7 @@ class CardList {
   
        _generateCards() {
         return this._products.map((obj) => {
-            return new this._Card(obj,this._Option).element;
+            return new this._Card({...obj, option: this._state.option},this._Option).element;
         });
         }
     
@@ -75,6 +80,11 @@ class CardList {
 
       update(data){
         this._setStateActiveHandler(data);
+      }
+
+      getOption(data){
+        this._setStateOption(data);
+        this._render();
       }
   
       get element() {
