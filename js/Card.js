@@ -9,7 +9,7 @@ class Card {
         currentColor:"",
     }
     
-      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion,Favorite) {
+      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion,Favorite,More) {
         this._id = id;
         this._title = title;
         this._price = price;
@@ -20,6 +20,7 @@ class Card {
         this._ColorOption = ColorOption;
         this._WattOpion = WattOpion;
         this._Favorite = Favorite;
+        this._More = More;
         this._colors = colors;
         this._init();
       }
@@ -62,6 +63,10 @@ class Card {
       _setStateCurrentColorHandler(id){
         this._setStateCurrentColor(id);
         this._render();
+      }
+      
+      _setStateMoreHandler(){
+
       }
 
       _addListeners() {
@@ -127,6 +132,8 @@ class Card {
         this._subElements.color.append(...this._generateOptionsColor());
         this._subElements.favorite.innerHTML = "";
         this._subElements.favorite.append(this._generateFavorite());
+        this._subElements.more.innerHTML = "";
+        this._subElements.more.append(this._generateMore());
         if (this._state.currentColor != "") {
           this._subElements.img.src = `images/${this._state.currentColor}`;
         }
@@ -150,6 +157,10 @@ class Card {
         return new this._Favorite().element;
       }
 
+      _generateMore(){
+        return new this._More(this._setStateMoreHandler.bind(this)).element;
+      }
+
       _getSubElements() {
         return Array.from(this._element.querySelectorAll("[data-element]")).reduce((acc, elem) => {
           return {
@@ -161,11 +172,7 @@ class Card {
   
       _getTemplate(){
           return `<div class="card">
-            <div class="card__more" data-element="more">
-              <a href="#" class="more">
-                <i class="fa-solid fa-arrow-right"></i>
-              </a>
-            </div>
+            <div class="card__more" data-element="more"></div>
             <div class="card__favorite" data-element="favorite"></div>
             <img class="card__img" src="images/${this._colors[0].img}" alt="" style="box-shadow: 0 0 14px #bf8061;" data-element="img"/>
             <div class="card__desc">
