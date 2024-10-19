@@ -9,7 +9,7 @@ class Card {
         currentColor:"",
     }
     
-      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion) {
+      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion,Favorite) {
         this._id = id;
         this._title = title;
         this._price = price;
@@ -19,6 +19,7 @@ class Card {
         this._watts = watts;
         this._ColorOption = ColorOption;
         this._WattOpion = WattOpion;
+        this._Favorite = Favorite;
         this._colors = colors;
         this._init();
       }
@@ -28,6 +29,7 @@ class Card {
         this._subElements = this._getSubElements();
         this._setStateStartCurrentColor();
         this._addListeners();
+        this._render();
       }
 
       _setStateWattActive(){
@@ -123,13 +125,10 @@ class Card {
         this._subElements.watt.append(...this._generateOptionsWatt());
         this._subElements.color.innerHTML = "";
         this._subElements.color.append(...this._generateOptionsColor());
-
-
+        this._subElements.favorite.append(this._generateFavorite());
         if (this._state.currentColor != "") {
           this._subElements.img.src = `images/${this._state.currentColor}`;
         }
-
-
         this._subElements.img.style.boxShadow = `0 0 ${this._state.currentWatt}px #bf8061`;
 
       }
@@ -144,6 +143,10 @@ class Card {
         return this._colors.map((obj) => {
           return new this._ColorOption(obj,this._setStateCurrentColorHandler.bind(this)).element;
       });
+      }
+
+      _generateFavorite(){
+        return new this._Favorite().element;
       }
 
       _getSubElements() {

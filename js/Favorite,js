@@ -1,6 +1,5 @@
 class Favorite{
     _element = null;
-    _subElements = null;
 
     _state ={
       active: false,
@@ -13,6 +12,7 @@ class Favorite{
     _init(){
       this._element = createElement(this._getTemplate());
       this._addListeners();
+      this._render();
     }
 
     _setStateActive(){
@@ -20,22 +20,23 @@ class Favorite{
     }
 
     _addListeners() {
-      this._subElements.close.addEventListener("click", () => {
-        
+      this._element.addEventListener("click", () => {
+        this._setStateActive();
+        this._render();
       })
     }
 
     _render(){
     if (this._state.active) {
-      this._element.classList.add("popup--active");
+      this._element.classList.add("favorite--active");
         
     } else {
-      this._element.classList.remove("popup--active");   
+      this._element.classList.remove("favorite--active");   
     }
     }
   
     _getTemplate(){
-        return `<a href="#" class="favorite">
+        return `<a href="#" class="favorite ${this._state.active ? "favorite--active" : ""}">
                 <i class="fa-regular fa-star"></i>
               </a>`
     }

@@ -46,7 +46,8 @@ const cardList = new CardList({
     products,
     Card,
     WattOpion,
-    ColorOption
+    ColorOption,
+    Favorite
 })
 
 const imgpopup = new ImagePopup();
