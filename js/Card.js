@@ -125,6 +125,7 @@ class Card {
         this._subElements.watt.append(...this._generateOptionsWatt());
         this._subElements.color.innerHTML = "";
         this._subElements.color.append(...this._generateOptionsColor());
+        this._subElements.favorite.innerHTML = "";
         this._subElements.favorite.append(this._generateFavorite());
         if (this._state.currentColor != "") {
           this._subElements.img.src = `images/${this._state.currentColor}`;
