@@ -27,6 +27,14 @@ root.addEventListener("deleteProduct", (event) => {
     header.close(event.detail);
   });
 
+root.addEventListener("open-popup", (event) => {
+  imgpopup.open(event.detail);
+  });
+
+root.addEventListener("close-popup", () => {
+    imgpopup.close();
+    });
+
 const header = new Header({
     MiniSearch, 
     Basket,
@@ -41,6 +49,9 @@ const cardList = new CardList({
     ColorOption
 })
 
+const imgpopup = new ImagePopup();
+
   root.insertAdjacentElement("afterbegin", header.element);
   root.insertAdjacentElement("beforeend", cardList.element);
+  root.insertAdjacentElement("beforeend", imgpopup.element);
 

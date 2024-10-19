@@ -26,6 +26,7 @@ class Card {
       _init(){
         this._element = createElement(this._getTemplate());
         this._subElements = this._getSubElements();
+        this._setStateStartCurrentColor();
         this._addListeners();
       }
 
@@ -41,6 +42,10 @@ class Card {
       _setStateCurrentWattHandler(id){
         this._setStateCurrentWatt(id);
         this._render();
+      }
+
+      _setStateStartCurrentColor(){
+        this._state.currentColor = this._colors[0].img;
       }
 
       _setStateColorActive(){
@@ -60,6 +65,10 @@ class Card {
       _addListeners() {
         this._subElements.buy.addEventListener("click", () => {
           this._dispathEventBuy();
+        });
+
+        this._subElements.img.addEventListener("click", () => {
+          this._dispathEventImgPopup();
         });
 
         this._subElements.wattBtn.addEventListener("click", () => {
@@ -83,6 +92,15 @@ class Card {
               price:this._price,
               colors:this._colors,
             },
+          })
+        );
+      }
+
+      _dispathEventImgPopup() {
+        this._element.dispatchEvent(
+          new CustomEvent("open-popup", {
+            bubbles: true,
+            detail: this._state.currentColor,
           })
         );
       }

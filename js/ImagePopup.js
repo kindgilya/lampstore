@@ -1,9 +1,13 @@
 class ImagePopup{
     _element = null;
     _subElements = null;
+
+    _state ={
+      active: false,
+      currentImage:"",
+    }
   
-    constructor(image) {
-        this._image = image
+    constructor() {
         this._init();
       }
   
@@ -13,10 +17,26 @@ class ImagePopup{
       this._addListeners();
     }
 
+    _setStateCurrentImage(image){
+      this._state.currentImage = image;
+    }
+
+    _setStateActive(){
+      this._state.active = !this._state.active;
+    }
+
     _addListeners() {
       this._subElements.close.addEventListener("click", () => {
-        
+        this._dispathEventClose();
       })
+    }
+
+    _dispathEventClose() {
+      this._element.dispatchEvent(
+        new CustomEvent("close-popup", {
+          bubbles: true,
+        })
+      );
     }
     
     _getSubElements() {
@@ -27,14 +47,35 @@ class ImagePopup{
         };
       }, {});
     }
+
+    _render(){
+      if (this._state.active) {
+        this._element.classList.add("popup--active");
+        
+    } else {
+        this._element.classList.remove("popup--active");   
+    }
+    this._subElements.img.src = `images/${this._state.currentImage}`;
+    }
   
     _getTemplate(){
-        return ` <div class="popup popup--img">
+        return ` <div class="popup popup--img ${this._active ? "popup--active" : ""}">
                 <button class="btn btn--close" data-element="close">
                     <i class="fa-regular fa-rectangle-xmark"></i>
                 </button>
-                    <img class="popup__img" src="images/lamp_1_white.jpg" alt="">
+                    <img class="popup__img" src="images/${this._state.currentImage}" alt="" data-element="img">
                 </div>`
+    }
+
+    open(image){
+      this._setStateCurrentImage(image);
+      this._setStateActive();
+      this._render();
+    }
+
+    close(){
+      this._setStateActive();
+      this._render();
     }
   
     get element() {
