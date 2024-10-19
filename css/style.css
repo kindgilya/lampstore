@@ -414,6 +414,11 @@ border-radius: 5px;
   opacity: 1;
 }
 
+.popup__img{
+  max-width: 500px;
+  height: 300px;
+}
+
 .popup .btn--close{
   position: absolute;
   top: -20px;

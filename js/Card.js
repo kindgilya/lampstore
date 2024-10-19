@@ -157,16 +157,12 @@ class Card {
   
       _getTemplate(){
           return `<div class="card">
-            <div class="card__more">
+            <div class="card__more" data-element="more">
               <a href="#" class="more">
                 <i class="fa-solid fa-arrow-right"></i>
               </a>
             </div>
-            <div class="card__favorite">
-              <a href="#" class="favorite">
-                <i class="fa-regular fa-star"></i>
-              </a>
-            </div>
+            <div class="card__favorite" data-element="favorite"></div>
             <img class="card__img" src="images/${this._colors[0].img}" alt="" style="box-shadow: 0 0 14px #bf8061;" data-element="img"/>
             <div class="card__desc">
               <h3 class="card__title">${this._title}</h3>

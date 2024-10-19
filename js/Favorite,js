@@ -1,0 +1,46 @@
+class Favorite{
+    _element = null;
+    _subElements = null;
+
+    _state ={
+      active: false,
+    }
+  
+    constructor() {
+      this._init();
+      }
+  
+    _init(){
+      this._element = createElement(this._getTemplate());
+      this._addListeners();
+    }
+
+    _setStateActive(){
+      this._state.active = !this._state.active;
+    }
+
+    _addListeners() {
+      this._subElements.close.addEventListener("click", () => {
+        
+      })
+    }
+
+    _render(){
+    if (this._state.active) {
+      this._element.classList.add("popup--active");
+        
+    } else {
+      this._element.classList.remove("popup--active");   
+    }
+    }
+  
+    _getTemplate(){
+        return `<a href="#" class="favorite">
+                <i class="fa-regular fa-star"></i>
+              </a>`
+    }
+  
+    get element() {
+      return this._element;
+    }
+}
