@@ -31,7 +31,7 @@ root.addEventListener("open-popup", (event) => {
   imgpopup.open(event.detail);
   });
 
-root.addEventListener("open-active", (event) => {
+root.addEventListener("open-about", (event) => {
   about.open(event.detail);
   });
 
@@ -53,9 +53,7 @@ const cardList = new CardList({
 
 const imgpopup = new ImagePopup();
 
-const about = new AboutPopup({
-  products,
-},Item);
+const about = new AboutPopup(Item);
 
   root.insertAdjacentElement("afterbegin", header.element);
   root.insertAdjacentElement("beforeend", cardList.element);

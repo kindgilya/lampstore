@@ -7,8 +7,7 @@ class AboutPopup {
       properties:[],
     }
   
-    constructor({products}, Item) {
-        this._products = products;
+    constructor(Item) {
         this._Item = Item;
         this._init();
     }
@@ -25,6 +24,8 @@ class AboutPopup {
 
     _setStateProperties(properties){
       this._state.properties = properties;
+      console.log(this._state.properties);
+      
     }
 
     _addListeners() {

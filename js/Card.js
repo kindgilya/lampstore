@@ -60,17 +60,17 @@ class Card {
       }
 
       _setStateMoreHandler(){
-        this._element.dispatchEvent(this._getCustomEvent("open-active", {
-          id:this._id,
-          title:this._title,
-          price:this._price,
-          colors:this._colors,
-        }));
+        this._element.dispatchEvent(this._getCustomEvent("open-about", this._properties));
       }
 
       _addListeners() {
         this._subElements.buy.addEventListener("click", () => {
-          this._element.dispatchEvent(this._getCustomEvent("buy", this._properties));
+          this._element.dispatchEvent(this._getCustomEvent("buy", {
+            id:this._id,
+            title:this._title,
+            price:this._price,
+            colors:this._colors,
+          }));
         });
 
         this._subElements.img.addEventListener("click", () => {
