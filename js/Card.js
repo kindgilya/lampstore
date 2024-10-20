@@ -17,7 +17,7 @@ class Card {
     
     */
     
-      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion,Favorite,More) {
+      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion,Favorite,More,Button) {
         this._id = id;
         this._title = title;
         this._price = price;
@@ -29,6 +29,7 @@ class Card {
         this._WattOpion = WattOpion;
         this._Favorite = Favorite;
         this._More = More;
+        this._Button = Button;
         this._colors = colors;
         this._init();
       }

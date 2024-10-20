@@ -8,13 +8,14 @@ class CardList {
 
     }
   
-    constructor({filterCategories, products, Card, ColorOption,WattOpion,Favorite,More}) {
+    constructor({filterCategories, products}, Card, ColorOption,WattOpion,Favorite,More,Button) {
           this._filterCategories = filterCategories;
           this._products = products;
           this._Card = Card;
           this._ColorOption = ColorOption;
           this._WattOpion = WattOpion;
           this._Favorite = Favorite;
+          this._Button = Button;
           this._More = More;
           this._init();
       }
@@ -41,7 +42,7 @@ class CardList {
             return obj.title.toLowerCase().includes(this._state.search.toLowerCase());
         }).map((obj) => {
           // подкрашивать titles (obj передать this._state.search)
-            return new this._Card({...obj},this._ColorOption,this._WattOpion,this._Favorite,this._More).element;
+            return new this._Card({...obj},this._ColorOption,this._WattOpion,this._Favorite,this._More,this._Button).element;
         });
       }
 
@@ -49,7 +50,7 @@ class CardList {
   
        _generateCards() {
         return this._products.map((obj) => {
-            return new this._Card({...obj},this._ColorOption,this._WattOpion,this._Favorite,this._More).element;
+            return new this._Card({...obj},this._ColorOption,this._WattOpion,this._Favorite,this._More,this._Button).element;
         });
         }
     

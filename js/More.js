@@ -18,9 +18,9 @@ class More{
     }
 
     _getTemplate(){
-        return `<a href="#" class="more">
+        return `<button href="#" class="more">
                 <i class="fa-solid fa-arrow-right"></i>
-              </a>`
+              </button>`
     }
   
     get element() {
