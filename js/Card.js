@@ -17,7 +17,7 @@ class Card {
     
     */
     
-      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion,Favorite,More,Button) {
+      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion,Favorite,Button) {
         this._id = id;
         this._title = title;
         this._price = price;
@@ -28,7 +28,6 @@ class Card {
         this._ColorOption = ColorOption;
         this._WattOpion = WattOpion;
         this._Favorite = Favorite;
-        this._More = More;
         this._Button = Button;
         this._colors = colors;
         this._init();
@@ -153,7 +152,7 @@ class Card {
       }
 
       _generateMore(){
-        return new this._More(this._setStateMoreHandler.bind(this)).element;
+        return new this._Button({use:"more", disabled:false, text:"", icon:"fa-solid fa-arrow-right"},this._setStateMoreHandler.bind(this)).element;
       }
 
       _getSubElements() {

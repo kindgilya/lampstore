@@ -44,11 +44,12 @@ const header = new Header({
 const cardList = new CardList({
     filterCategories,
     products,
-},   Card,
-WattOpion,
-ColorOption,
-Favorite,
-More);
+    Card,
+    WattOpion,
+    ColorOption,
+    Favorite,
+    Button
+});
 
 const imgpopup = new ImagePopup();
 
