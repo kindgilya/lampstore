@@ -20,7 +20,8 @@ class Favorite{
     }
 
     _addListeners() {
-      this._element.addEventListener("click", () => {
+      this._element.addEventListener("click", (event) => {
+        event.preventDefault();
         this._setStateActive();
         this._render();
       })

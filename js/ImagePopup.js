@@ -27,16 +27,8 @@ class ImagePopup{
 
     _addListeners() {
       this._subElements.close.addEventListener("click", () => {
-        this._dispathEventClose();
+        this.close();
       })
-    }
-
-    _dispathEventClose() {
-      this._element.dispatchEvent(
-        new CustomEvent("close-popup", {
-          bubbles: true,
-        })
-      );
     }
     
     _getSubElements() {
@@ -59,7 +51,7 @@ class ImagePopup{
     }
   
     _getTemplate(){
-        return ` <div class="popup popup--img ${this._active ? "popup--active" : ""}">
+        return `<div class="popup popup--img ${this._active ? "popup--active" : ""}">
                 <button class="btn btn--close" data-element="close">
                     <i class="fa-regular fa-rectangle-xmark"></i>
                 </button>
@@ -74,6 +66,7 @@ class ImagePopup{
     }
 
     close(){
+      this._setStateCurrentImage("");
       this._setStateActive();
       this._render();
     }

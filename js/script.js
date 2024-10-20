@@ -31,9 +31,9 @@ root.addEventListener("open-popup", (event) => {
   imgpopup.open(event.detail);
   });
 
-root.addEventListener("close-popup", () => {
-    imgpopup.close();
-    });
+root.addEventListener("open-active", (event) => {
+  about.open(event.detail);
+  });
 
 const header = new Header({
     MiniSearch, 
@@ -49,11 +49,16 @@ const cardList = new CardList({
     ColorOption,
     Favorite,
     More
-})
+});
 
 const imgpopup = new ImagePopup();
+
+const about = new AboutPopup({
+  products,
+}, Item);
 
   root.insertAdjacentElement("afterbegin", header.element);
   root.insertAdjacentElement("beforeend", cardList.element);
   root.insertAdjacentElement("beforeend", imgpopup.element);
+  root.insertAdjacentElement("beforeend", about.element);
 

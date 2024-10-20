@@ -3,11 +3,19 @@ class Card {
     _subElements = null;
 
     _state = {
+      // favorite
         wattActive:false,
         colorActive:false,
         currentWatt:14,
         currentColor:"",
     }
+
+    /* 
+    
+    this._ComponentChoice = ComponentChoice;
+    this._ComponentChoiceItem = ComponentChoiceItem;
+    
+    */
     
       constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion,Favorite,More) {
         this._id = id;
@@ -28,7 +36,7 @@ class Card {
       _init(){
         this._element = createElement(this._getTemplate());
         this._subElements = this._getSubElements();
-        this._setStateStartCurrentColor();
+        this._setStateCurrentColor(this._colors[0]);
         this._addListeners();
         this._render();
       }
@@ -47,35 +55,36 @@ class Card {
         this._render();
       }
 
-      _setStateStartCurrentColor(){
-        this._state.currentColor = this._colors[0].img;
-      }
-
       _setStateColorActive(){
         this._state.colorActive = !this._state.colorActive;
       }
 
-      _setStateCurrentColor(id){
-        const currentImage = this._colors.find((el) => el.id === id);
+      _setStateCurrentColor(currentImage){
         this._state.currentColor = currentImage.img;
       }
 
       _setStateCurrentColorHandler(id){
-        this._setStateCurrentColor(id);
+        const currentImage = this._colors.find((el) => el.id === id);
+        this._setStateCurrentColor(currentImage);
         this._render();
       }
-      
-      _setStateMoreHandler(){
 
+      _setStateMoreHandler(){
+        this._element.dispatchEvent(this._getCustomEvent("open-active", {
+          id:this._id,
+          title:this._title,
+          price:this._price,
+          colors:this._colors,
+        }));
       }
 
       _addListeners() {
         this._subElements.buy.addEventListener("click", () => {
-          this._dispathEventBuy();
+          this._element.dispatchEvent(this._getCustomEvent("buy", this._properties));
         });
 
         this._subElements.img.addEventListener("click", () => {
-          this._dispathEventImgPopup();
+          this._element.dispatchEvent(this._getCustomEvent("open-popup", this._state.currentColor));
         });
 
         this._subElements.wattBtn.addEventListener("click", () => {
@@ -89,27 +98,12 @@ class Card {
         });
       }
 
-      _dispathEventBuy() {
-        this._element.dispatchEvent(
-          new CustomEvent("buy", {
+      // pattern function fabric
+      _getCustomEvent(name, data) {
+        return new CustomEvent(name, {
             bubbles: true,
-            detail: {
-              id:this._id,
-              title:this._title,
-              price:this._price,
-              colors:this._colors,
-            },
+            detail: data,
           })
-        );
-      }
-
-      _dispathEventImgPopup() {
-        this._element.dispatchEvent(
-          new CustomEvent("open-popup", {
-            bubbles: true,
-            detail: this._state.currentColor,
-          })
-        );
       }
 
       _render(){
@@ -197,4 +191,3 @@ class Card {
       }
   
   }
-

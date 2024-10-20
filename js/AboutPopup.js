@@ -1,16 +1,17 @@
-class AboutPopup{
+class AboutPopup {
     _element = null;
     _subElements = null;
 
     _state ={
       active: false,
+      properties:[],
     }
   
-    constructor(products, Item) {
+    constructor({products}, Item) {
         this._products = products;
         this._Item = Item;
         this._init();
-      }
+    }
   
     _init(){
       this._element = createElement(this._getTemplate());
@@ -22,18 +23,18 @@ class AboutPopup{
       this._state.active = !this._state.active;
     }
 
+    _setStateProperties(properties){
+      this._state.properties = properties;
+    }
+
     _addListeners() {
       this._subElements.close.addEventListener("click", () => {
-        this._dispathEventClose();
+      this.close();
       })
     }
 
-    _dispathEventClose() {
-      this._element.dispatchEvent(
-        new CustomEvent("close-about", {
-          bubbles: true,
-        })
-      );
+    _generateItems(){
+      return this._state.properties.map((obj) => new this._Item(obj).element)
     }
     
     _getSubElements() {
@@ -46,85 +47,36 @@ class AboutPopup{
     }
 
     _render(){
-    if (this._state.active) {
-        this._element.classList.add("popup--active");
-        
-    } else {
-        this._element.classList.remove("popup--active");   
-    }
+        if (this._state.active) {
+            this._element.classList.add("popup--active");
+            
+        } else {
+            this._element.classList.remove("popup--active");   
+        }
+        this._subElements.items.innerHTML = "";
+        this._subElements.items.append(...this._generateItems());
     }
   
     _getTemplate(){
-        return ` <div class="popup popup--about popup--active">
-      <button class="btn btn--close">
+        return `<div class="popup popup--about">
+      <button class="btn btn--close" data-element="close">
         <i class="fa-regular fa-rectangle-xmark"></i>
       </button>
       <span class="popup__title">Характеристики</span>
-      <div class="popup__items">
-        <div class="item">
-          <i class="fa-solid fa-arrow-right"></i>
-          <div class="item__description">
-            <span class="item__title">Ценаfsdatwegwegregwerger</span>
-            <span class="item__text">997руб</span>
-          </div>
-        </div>
-        <div class="item">
-          <i class="fa-solid fa-arrow-right"></i>
-          <div class="item__description">
-            <span class="item__title">Цена</span>
-            <span class="item__text">997feyershrtруб</span>
-          </div>
-        </div>
-        <div class="item">
-          <i class="fa-solid fa-arrow-right"></i>
-          <div class="item__description">
-            <span class="item__title">Цена</span>
-            <span class="item__text">997руб</span>
-          </div>
-        </div>
-        <div class="item">
-          <i class="fa-solid fa-arrow-right"></i>
-          <div class="item__description">
-            <span class="item__title">Цена</span>
-            <span class="item__text">997руб</span>
-          </div>
-        </div>
-        <div class="item">
-          <i class="fa-solid fa-arrow-right"></i>
-          <div class="item__description">
-            <span class="item__title">Цена</span>
-            <span class="item__text">997руб</span>
-          </div>
-        </div>
-        <div class="item">
-          <i class="fa-solid fa-arrow-right"></i>
-          <div class="item__description">
-            <span class="item__title">Цена</span>
-            <span class="item__text">997руб</span>
-          </div>
-        </div>
-        <div class="item">
-          <i class="fa-solid fa-arrow-right"></i>
-          <div class="item__description">
-            <span class="item__title">Цена</span>
-            <span class="item__text">997руб</span>
-          </div>
-        </div>
-        <div class="item">
-          <i class="fa-solid fa-arrow-right"></i>
-          <div class="item__description">
-            <span class="item__title">Цена</span>
-            <span class="item__text">997руб</span>
-          </div>
-        </div>
-      </div>
+      <div class="popup__items" data-element="items"></div>
     </div>`
     }
 
-    open(){
+    open(properties){
+      this._setStateProperties(properties);
+      this._setStateActive();
+      this._render();
     }
 
     close(){
+        this._setStateProperties([]);
+        this._setStateActive();
+        this._render();
     }
   
     get element() {
