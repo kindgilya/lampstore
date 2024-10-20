@@ -4,8 +4,6 @@ class Card {
 
     _state = {
       // favorite
-        wattActive:false,
-        colorActive:false,
         currentWatt:14,
         currentColor:"",
     }
@@ -17,7 +15,7 @@ class Card {
     
     */
     
-      constructor({id, title, price, priceType, description, properties, watts, colors},ColorOption,WattOpion,Favorite,Button) {
+      constructor({id, title, price, priceType, description, properties, watts, colors}, Favorite,Button,Option,OptionItem) {
         this._id = id;
         this._title = title;
         this._price = price;
@@ -25,9 +23,9 @@ class Card {
         this._description = description;
         this._properties = properties;
         this._watts = watts;
-        this._ColorOption = ColorOption;
-        this._WattOpion = WattOpion;
         this._Favorite = Favorite;
+        this._Option = Option;
+        this._OptionItem = OptionItem;
         this._Button = Button;
         this._colors = colors;
         this._init();
@@ -41,32 +39,24 @@ class Card {
         this._render();
       }
 
-      _setStateWattActive(){
-        this._state.wattActive = !this._state.wattActive;
-      }
-
-      _setStateCurrentWatt(id){
-        const currentWatt = this._watts.find((el) => el.id === id);
-        this._state.currentWatt = currentWatt.text;
-      }
-
       _setStateCurrentWattHandler(id){
-        this._setStateCurrentWatt(id);
+        const currentWatt = this._watts.find((el) => el.id === id);
+        this._setStateCurrentWatt(currentWatt);
         this._render();
       }
 
-      _setStateColorActive(){
-        this._state.colorActive = !this._state.colorActive;
-      }
-
-      _setStateCurrentColor(currentImage){
-        this._state.currentColor = currentImage.img;
+      _setStateCurrentWatt(currentWatt){
+        this._state.currentWatt = currentWatt.text;
       }
 
       _setStateCurrentColorHandler(id){
         const currentImage = this._colors.find((el) => el.id === id);
         this._setStateCurrentColor(currentImage);
         this._render();
+      }
+
+      _setStateCurrentColor(currentImage){
+        this._state.currentColor = currentImage.img;
       }
 
       _setStateMoreHandler(){
@@ -86,16 +76,6 @@ class Card {
         this._subElements.img.addEventListener("click", () => {
           this._element.dispatchEvent(this._getCustomEvent("open-popup", this._state.currentColor));
         });
-
-        this._subElements.wattBtn.addEventListener("click", () => {
-          this._setStateWattActive();
-          this._render();
-        });
-
-        this._subElements.colorBtn.addEventListener("click", () => {
-          this._setStateColorActive();
-          this._render();
-        });
       }
 
       // pattern function fabric
@@ -107,23 +87,6 @@ class Card {
       }
 
       _render(){
-        if (this._state.wattActive) {
-          this._subElements.watt.classList.add("card__options-items--active");
-          
-        } else {
-          this._subElements.watt.classList.remove("card__options-items--active");   
-        }
-
-        if (this._state.colorActive) {
-          this._subElements.color.classList.add("card__options-items--active");
-          
-        } else {
-          this._subElements.color.classList.remove("card__options-items--active");   
-        }
-        this._subElements.watt.innerHTML = "";
-        this._subElements.watt.append(...this._generateOptionsWatt());
-        this._subElements.color.innerHTML = "";
-        this._subElements.color.append(...this._generateOptionsColor());
         this._subElements.favorite.innerHTML = "";
         this._subElements.favorite.append(this._generateFavorite());
         this._subElements.more.innerHTML = "";
@@ -132,20 +95,19 @@ class Card {
           this._subElements.img.src = `images/${this._state.currentColor}`;
         }
         this._subElements.img.style.boxShadow = `0 0 ${this._state.currentWatt}px #bf8061`;
+        this._subElements.option.innerHTML = "";
+        this._subElements.option.append(this._generateOptionWatt());
+        this._subElements.option.append(this._generateOptionColor());
 
       }
 
-      _generateOptionsWatt() {
-        return this._watts.map((obj) => {
-          return new this._WattOpion(obj,this._setStateCurrentWattHandler.bind(this)).element;
-      });
+      _generateOptionWatt() {
+         return new this._Option(this._watts,this._OptionItem,this._setStateCurrentWattHandler.bind(this)).element;
       }
 
-      _generateOptionsColor(){
-        return this._colors.map((obj) => {
-          return new this._ColorOption(obj,this._setStateCurrentColorHandler.bind(this)).element;
-      });
-      }
+      _generateOptionColor() {
+        return new this._Option(this._colors,this._OptionItem,this._setStateCurrentColorHandler.bind(this)).element;
+     }
 
       _generateFavorite(){
         return new this._Favorite().element;
@@ -173,15 +135,7 @@ class Card {
               <h3 class="card__title">${this._title}</h3>
               <span class="card__price">${this._price} ${this._priceType}</span>
             </div>
-            <div class="card__options">
-                <div class="card__options-content">
-                  <button class="btn watt--btn card__options-btn" data-element="wattBtn">Watt</button>
-                  <div class="card__options-items ${this._state.watt ? "card__options-items--active" : ""}" data-element="watt"></div>
-                </div>
-                <div class="card__options-content">
-                  <button class="btn color--btn card__options-btn" data-element="colorBtn">Color</button>
-                  <div class="card__options-items ${this._state.color ? "card__options-items--active" : ""}" data-element="color"></div>
-              </div>
+            <div class="card__options" data-element="option"></div>
             <button class="btn buy--btn" data-element="buy">buy</button>
           </div>`
       }

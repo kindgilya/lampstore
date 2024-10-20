@@ -45,20 +45,19 @@ const cardList = new CardList({
     filterCategories,
     products,
     Card,
-    WattOpion,
-    ColorOption,
     Favorite,
-    Button
+    Button,
+    Option,
+    OptionItem
 });
 
 const imgpopup = new ImagePopup();
 
 const about = new AboutPopup({
   products,
-}, Item);
+},Item);
 
   root.insertAdjacentElement("afterbegin", header.element);
   root.insertAdjacentElement("beforeend", cardList.element);
   root.insertAdjacentElement("beforeend", imgpopup.element);
   root.insertAdjacentElement("beforeend", about.element);
-
