@@ -47,6 +47,13 @@ class Basket {
         this._setStateActive();
         this._render();
       });
+
+      // document.addEventListener("click", (event) => {
+      //   console.dir(event.target);
+      //   if (!event.target.closest(".popup")) {
+      //    about.close();
+      //   }
+      // }); 
     }
 
     _generateMiniProduct() {
@@ -64,7 +71,6 @@ class Basket {
     _render(){
         if (this._state.active) {
             this._subElements.basketList.classList.add("basket__list--active");
-            
         } else {
             this._subElements.basketList.classList.remove("basket__list--active");   
         }

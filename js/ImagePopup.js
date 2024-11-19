@@ -28,7 +28,19 @@ class ImagePopup{
     _addListeners() {
       this._subElements.close.addEventListener("click", () => {
         this.close();
-      })
+      });
+
+      this._element.addEventListener("click", (event) => {
+        if (!event.target.closest(".popup__wrapper")) {
+          this.close();
+        }
+      });
+      
+      document.addEventListener("keydown", (el) => {
+        if(el.keyCode === 27){
+          this.close();
+        }
+      });
     }
     
     _getSubElements() {
@@ -51,11 +63,13 @@ class ImagePopup{
     }
   
     _getTemplate(){
-        return `<div class="popup popup--img ${this._active ? "popup--active" : ""}">
+        return `<div class="popup">
+                <div class="popup__wrapper popup--img ${this._active ? "popup--active" : ""}">
                 <button class="btn btn--close" data-element="close">
                     <i class="fa-regular fa-rectangle-xmark"></i>
                 </button>
                     <img class="popup__img" src="images/${this._state.currentImage}" alt="" data-element="img">
+                </div>
                 </div>`
     }
 

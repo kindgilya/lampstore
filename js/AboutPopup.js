@@ -23,16 +23,26 @@ class AboutPopup {
     }
 
     _setStateProperties(properties){
-      this._state.properties = properties;
-      console.log(this._state.properties);
-      
+      this._state.properties = properties; 
     }
 
     _addListeners() {
       this._subElements.close.addEventListener("click", () => {
       this.close();
       })
-    }
+
+      this._element.addEventListener("click", (event) => {
+        if (!event.target.closest(".popup__wrapper")) {
+          this.close();
+        }
+        });
+        
+      // document.addEventListener("keydown", (el) => {
+        //   if(el.keyCode === 27){
+        //     this.close();
+        //   }
+        // });
+      }
 
     _generateItems(){
       return this._state.properties.map((obj) => new this._Item(obj).element)
@@ -59,12 +69,14 @@ class AboutPopup {
     }
   
     _getTemplate(){
-        return `<div class="popup popup--about">
+        return `<div class="popup">
+      <div class="popup__wrapper popup--about ${this._active ? "popup--active" : ""}">
       <button class="btn btn--close" data-element="close">
         <i class="fa-regular fa-rectangle-xmark"></i>
       </button>
       <span class="popup__title">Характеристики</span>
       <div class="popup__items" data-element="items"></div>
+      </div>
     </div>`
     }
 
@@ -75,9 +87,9 @@ class AboutPopup {
     }
 
     close(){
-        this._setStateProperties([]);
-        this._setStateActive();
-        this._render();
+      this._setStateActive();
+      this._render();
+      this._setStateProperties([]);
     }
   
     get element() {

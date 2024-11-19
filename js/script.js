@@ -20,11 +20,11 @@ root.addEventListener("search", (event) => {
   });
 
 root.addEventListener("buy", (event) => {
-    header.update(event.detail);
+  basket.add(event.detail);
   });
 
 root.addEventListener("deleteProduct", (event) => {
-    header.close(event.detail);
+    basket.remove(event.detail);
   });
 
 root.addEventListener("open-popup", (event) => {
@@ -35,10 +35,11 @@ root.addEventListener("open-about", (event) => {
   about.open(event.detail);
   });
 
+const basket = new Basket(MiniProduct);
+
 const header = new Header({
     MiniSearch, 
-    Basket,
-    MiniProduct,
+    basket
   });
 
 const cardList = new CardList({

@@ -3,10 +3,9 @@ class Header {
   _subElements = null;
   _firstRender = false;
 
-  constructor({MiniSearch,Basket,MiniProduct}) {
+  constructor({MiniSearch, basket}) {
         this._MiniSearch = MiniSearch;
-        this._Basket = new Basket(MiniProduct);
-        this._MiniProduct = MiniProduct;
+        this._basket = basket;
         this._init();
     }
 
@@ -21,7 +20,7 @@ class Header {
     }
     
     _generateBasket() {
-      return this._Basket.element;
+      return this._basket.element;
     }
 
     _getSubElements() {
@@ -37,10 +36,12 @@ class Header {
       if (!this._firstRender) {
       this._firstRender = true;
       }
-      this._subElements.wrapper.innerHTML = "";
-      this._subElements.wrapper.append(this._generateMiniSearch());
+
+      this._subElements.miniSearch.innerHTML = "";
+      this._subElements.miniSearch.append(this._generateMiniSearch());
+
       if (this._firstRender) {
-        this._subElements.wrapper.append(this._generateBasket());
+        this._subElements.miniBasket.append(this._generateBasket());
       }
     }
 
@@ -62,17 +63,20 @@ class Header {
             </li>
           </ul>
           <div class="header__wrapper" data-element="wrapper"></div>
+          <div class="header__mini-search-wrapper" data-element="miniSearch"></div>
+          <div class="header__mini-basket-wrapper" data-element="miniBasket"></div>
+
           </nav>
       </header>`
     }
 
-    update(obj){
-      this._Basket.add(obj);
-    }
+    // update(obj){
+    //   this._Basket.add(obj);
+    // }
 
-    close(id){
-      this._Basket.remove(id);
-    }
+    // close(id){
+    //   this._Basket.remove(id);
+    // }
 
     get element() {
       return this._element;
