@@ -42,6 +42,10 @@ const header = new Header({
     basket
   });
 
+const filter = new Filter({
+  filterCategories
+});
+
 const cardList = new CardList({
     filterCategories,
     products,
@@ -57,6 +61,7 @@ const imgpopup = new ImagePopup();
 const about = new AboutPopup(Item);
 
   root.insertAdjacentElement("afterbegin", header.element);
+  root.insertAdjacentElement("beforeend", filter.element);
   root.insertAdjacentElement("beforeend", cardList.element);
   root.insertAdjacentElement("beforeend", imgpopup.element);
   root.insertAdjacentElement("beforeend", about.element);

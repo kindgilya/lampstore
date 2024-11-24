@@ -55,9 +55,9 @@ class Basket {
         this._render();
       });
 
-      // this._element.addEventListener("click", (event) => {
-      //   if (!event.target.closest(".basket__list")) {
-      //     this.remove();
+      // document.addEventListener("click", (event) => {
+      //   if (!event.target.closest(".basket__list--active")) {
+      //     this.close();
       //   }
       // });
     }
@@ -125,7 +125,11 @@ class Basket {
           this._setStateProducts(this._state.products.filter(el => el.removeId !== removeId));
           this._render();
         }
-    
+
+        close(){
+          this._setStateActive();
+          this._render();
+        }
   }
   
 

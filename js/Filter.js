@@ -1,22 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lamp Store</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <div class="root">
-      <!-- <form class="filters" method="post" action="#">
+class Filter {
+    _element = null;
+    _subElements = null;
+  
+    constructor({filterCategories}) {
+        this._filterCategories = filterCategories;
+        this._init();
+      }
+  
+    _init(){
+      this._element = createElement(this._getTemplate());
+      this._subElements = this._getSubElements();
+    }
+  
+    _getSubElements() {
+      return Array.from(this._element.querySelectorAll("[data-element]")).reduce((acc, elem) => {
+        return {
+          ...acc,
+          [elem.getAttribute("data-element")]: elem,
+        };
+      }, {});
+    }
+  
+    _getTemplate(){
+        return `<form class="filters" method="post" action="#">
           <div class="fiters__input">
             <div class="filter">
               <h2 class="filter__title">Цена</h2>
@@ -106,24 +112,10 @@
               </select>
             </div>
           </div>
-        </form>-->
-    </div>
-    </div>
-    <script src="js/start data.js"></script>
-    <script src="js/Header.js"></script>
-    <script src="js/Card.js"></script>
-    <script src="js/CardList.js"></script>
-    <script src="js/MiniSearch.js"></script>
-    <script src="js/Basket.js"></script>
-    <script src="js/MiniProduct.js"></script>
-    <script src="js/ImagePopup.js"></script>
-    <script src="js/Favorite.js"></script>
-    <script src="js/AboutPopup.js"></script>
-    <script src="js/Item.js"></script>
-    <script src="js/Button.js"></script>
-    <script src="js/Option.js"></script>
-    <script src="js/OptionItem.js"></script>
-    <script src="js/Filter.js"></script>
-    <script src="js/script.js"></script>
-  </body>
-</html>
+        </form>`
+    }
+  
+    get element() {
+      return this._element;
+    }
+    }
