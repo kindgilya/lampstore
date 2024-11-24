@@ -6,10 +6,11 @@ class Option{
         active: false,
     }
   
-    constructor(props,OptionItem,handler) {
+    constructor({text,props},OptionItem,handler) {
         this._props = props;
         this._handler = handler;
         this._OptionItem = OptionItem;
+        this._text = text;
         this._init();
       }
   
@@ -62,7 +63,7 @@ class Option{
   
     _getTemplate(){
         return `<div class="card__options-content">
-                  <button class="btn watt--btn card__options-btn" data-element="wattBtn">Watt</button>
+                  <button class="btn watt--btn card__options-btn">${this._text}</button>
                   <div class="card__options-items card__options-items--active ${this._state.active ? "card__options-items--active" : ""}" data-element="watt"></div>
                 </div>`
     }

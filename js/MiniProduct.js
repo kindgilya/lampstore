@@ -2,11 +2,12 @@ class MiniProduct {
   _element = null;
   _subElements = null;
 
-  constructor({id, colors, title, price}) {
+  constructor({id, color, title, price, removeId}) {
       this._id = id;
-      this._colors = colors;
+      this._color = color;
       this._title = title;
       this._price = price;
+      this._removeId = removeId;
       this._init();
     }
 
@@ -18,7 +19,7 @@ class MiniProduct {
 
   _addListeners() {
     this._subElements.close.addEventListener("click", () => {
-      this._dispathEventProduct(this._id);
+      this._dispathEventProduct(this._removeId);
     });
   }
 
@@ -42,7 +43,7 @@ class MiniProduct {
 
   _getTemplate(){
       return `<div class="mini-product mini-product__basket">
-                    <img class="mini-product__img" src="images/${this._colors[0].img}" alt="">
+                    <img class="mini-product__img" src="images/${this._color}" alt="">
                       <div class="mini-product__info">
                         <spam class="mini-product__text">${this._title}</spam>
                         <spam class="mini-product__price">${this._price}</spam>

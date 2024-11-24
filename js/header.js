@@ -62,22 +62,14 @@ class Header {
               <a href="#" class="menu__link">Контакты</a>
             </li>
           </ul>
-          <div class="header__wrapper" data-element="wrapper"></div>
+          <div class="header__wrapper" data-element="wrapper">
           <div class="header__mini-search-wrapper" data-element="miniSearch"></div>
           <div class="header__mini-basket-wrapper" data-element="miniBasket"></div>
-
+          </div>
           </nav>
       </header>`
     }
-
-    // update(obj){
-    //   this._Basket.add(obj);
-    // }
-
-    // close(id){
-    //   this._Basket.remove(id);
-    // }
-
+    
     get element() {
       return this._element;
     }

@@ -8,13 +8,6 @@ class Card {
         currentColor:"",
     }
 
-    /* 
-    
-    this._ComponentChoice = ComponentChoice;
-    this._ComponentChoiceItem = ComponentChoiceItem;
-    
-    */
-    
       constructor({id, title, price, priceType, description, properties, watts, colors}, Favorite,Button,Option,OptionItem) {
         this._id = id;
         this._title = title;
@@ -69,7 +62,8 @@ class Card {
             id:this._id,
             title:this._title,
             price:this._price,
-            colors:this._colors,
+            color:this._state.currentColor,
+            //надо, чтобы падал конкретный цвет
           }));
         });
 
@@ -102,11 +96,11 @@ class Card {
       }
 
       _generateOptionWatt() {
-         return new this._Option(this._watts,this._OptionItem,this._setStateCurrentWattHandler.bind(this)).element;
+         return new this._Option({text:"Watt", props: this._watts},this._OptionItem,this._setStateCurrentWattHandler.bind(this)).element;
       }
 
       _generateOptionColor() {
-        return new this._Option(this._colors,this._OptionItem,this._setStateCurrentColorHandler.bind(this)).element;
+        return new this._Option({text:"Color", props: this._colors},this._OptionItem,this._setStateCurrentColorHandler.bind(this)).element;
      }
 
       _generateFavorite(){

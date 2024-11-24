@@ -37,29 +37,35 @@ class Basket {
     _setStateProducts(newState) {
       this._state.products = newState
     }
+
+    _generateRemoveId(){
+      return (+new Date).toString(16);
+    }
+
+
   
     _addListeners() {
       this._subElements.basket.addEventListener("click", () => {
         this._setStateActive();
         this._render();
       });
+
       this._subElements.description.addEventListener("click", () => {
         this._setStateActive();
         this._render();
       });
 
-      // document.addEventListener("click", (event) => {
-      //   console.dir(event.target);
-      //   if (!event.target.closest(".popup")) {
-      //    about.close();
+      // this._element.addEventListener("click", (event) => {
+      //   if (!event.target.closest(".basket__list")) {
+      //     this.remove();
       //   }
-      // }); 
+      // });
     }
 
     _generateMiniProduct() {
       return this._state.products.map((obj) => {
         return new this._MiniProduct(obj).element;
-    });
+      });
       }
 
     _calculatePrice(){
@@ -111,12 +117,12 @@ class Basket {
         }
 
         add(obj){
-          this._setStateProducts([...this._state.products, obj]);
+          this._setStateProducts([...this._state.products, {...obj, removeId:this._generateRemoveId()}]);
           this._render();
         }
     
-        remove(id){
-          this._setStateProducts(this._state.products.filter(el => el.id !== id));
+        remove(removeId){
+          this._setStateProducts(this._state.products.filter(el => el.removeId !== removeId));
           this._render();
         }
     
